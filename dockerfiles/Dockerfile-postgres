@@ -1,0 +1,14 @@
+FROM postgres:9.6
+    
+ENV POSTGRES_PASSWORD=postgres
+
+# Adjust PostgreSQL configuration so that remote connections to the
+# database are possible.
+# RUN echo "host all  all *  md5" >> /etc/postgresql/pg_hba.conf
+COPY pg_hba.conf /etc/postgresql/
+COPY postgresql.conf /etc/postgresql/postgresql.conf
+COPY init.sql /docker-entrypoint-initdb.d/
+# RUN echo "listen_addresses='*'" >> /etc/postgresql/postgresql.conf
+
+# Add VOLUMEs to allow backup of config, logs and databases
+# VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]

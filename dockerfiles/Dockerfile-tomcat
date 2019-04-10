@@ -1,0 +1,7 @@
+FROM tomcat:9-jre8
+
+ADD . /code
+WORKDIR /code
+COPY tomcat-users.xml  $CATALINA_HOME/conf/
+COPY context.xml $CATALINA_HOME/webapps/manager/META-INF/
+VOLUME $CATALINA_HOME/webapps

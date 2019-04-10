@@ -1,0 +1,28 @@
+version: '2'
+services:
+  db:
+    build:
+        context: dockerfiles
+        dockerfile: Dockerfile-postgres
+    restart: always
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+  maven:
+      build:
+        context: dockerfiles
+        dockerfile: Dockerfile-maven
+      volumes:
+        - ~/.m2:/root/.m2
+        - .:/home/app
+      volumes_from:
+        - tomcat
+  tomcat:
+    build:
+      context: dockerfiles
+      dockerfile: Dockerfile-tomcat
+    ports:
+      - "8888:8080"
+    links:
+      - db:db
